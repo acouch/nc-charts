@@ -1,0 +1,22 @@
+body {
+  min-height: 2000px;
+  padding-top: 70px;
+}
+#login-dropdown-list {
+  position: absolute;
+  top: 8px;
+  right: -1px;
+  left: inherit;
+}
+#login-buttons .login-close-text {
+  float: right;
+  position: relative;
+  padding-bottom: 8px;
+}
+#login-buttons {
+  margin-top: 15px;
+  margin-left: 10px;
+}
+#login-buttons a {
+  text-decoration: none;
+}
