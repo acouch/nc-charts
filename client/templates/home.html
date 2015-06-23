@@ -1,9 +1,110 @@
 <template name="nuChartsHome">
   {{> nuChartsNav}}
+  <main class="masthead" id="content" role="main" tabindex="-1">
+    <div class="container">
+    <h1>NC Charts</h1>
+     <p class="lead">Create and share charts and graphs with CSV, Google Docs, or other sources. Login to begin.
+    </p>
+    <p class="lead">
+      <a href="http://github.com/NuCivic"><div class="btn btn-outline btn-lg"><span class="octocat"></span><span class="hidden-mobile">View on</span> GitHub</div></a>
+      {{> reclineNvd3AppStart}}
+    </p>
+    </div>
+  </main>
+
   <div class="container">
     <div class="row">
       <div class="col-md-12">
-        {{> reclineNvd3AppStart}}
+
+        <div class="container">
+          <h2 class="bs-docs-featurette-title">Beautiful charts and graphs.</h2>
+          <p class="lead">NC Charts makes it easy to create graphs and charts without code. See our <a href="#gallery">collection of examples</a> for some of our favorites.</p>
+
+          <hr class="half-rule">
+
+          <div class="row bs-docs-featured-sites">
+
+            <div class="col-xs-6 col-sm-3">
+              <img src="/img/stackedarea.png" alt="Stacked Area" class="img-responsive">
+            </div>
+            <div class="col-xs-6 col-sm-3">
+              <img src="/img/discretebar.png" alt="Discrete Bar" class="img-responsive">
+            </div>
+
+            <div class="col-xs-6 col-sm-3">
+              <img src="/img/cumulativeline.png" alt="Cumulative" class="img-responsive">
+            </div>
+
+            <div class="col-xs-6 col-sm-3">
+              <img src="/img/scatter.png" alt="Scatter Chart" class="img-responsive">
+            </div>
+
+          </div>
+
+          <hr class="half-rule">
+
+        </div>
+
+        <div class="container marketing">
+          <div class="row featurette">
+            <div class="col-md-9">
+              <h2 class="featurette-heading">Open Source</h2>
+              <p class="lead">NC Charts is based off of an open source project, <a href="github.com/NuCivic/nvd3_visualization_app">NVD3 Visualization App</a>, with a <a href="">Meteor</a> wrapper to manage accounts and allow for permanent URLs. The charts are rendered by <a href="">NVD3</a> and powered by <a href="">ReclineJS</a>.</p>
+            </div>
+            <div class="col-md-3">
+              <img style="width:120px;padding-top: 40px;" class="featurette-image img-responsive center-block" src="http://www.titaniuminteractive.net/files/icon_opensource.jpg" alt="Generic placeholder image">
+            </div>
+          </div>
+
+          <hr class="featurette-divider">
+
+          <div class="row featurette">
+            <div class="col-md-7 col-md-push-5">
+              <h2 class="featurette-heading">Multiple Backends.<div class="text-muted">Use data from numerous sources.</div></h2>
+              <p class="lead">Create graphs with CSV, XLS, Google Docs, DKAN Catalog, CKAN Catalog, CartoDB (coming soon).
+              </p>
+            </div>
+            <div class="col-md-5 col-md-pull-7">
+              <img style="width:300px;" class="featurette-image img-responsive center-block" src="/img/data-logos.png" alt="Generic placeholder image">
+            </div>
+          </div>
+
+          <hr class="featurette-divider">
+
+          <div class="row featurette">
+            <div class="col-md-8">
+              <h2 class="featurette-heading">Data Transforms. <span class="text-muted">Coming soon.</span></h2>
+              <p class="lead">Manipulate data sources using <a href="">Dat</a>-based transforms. Publish the results as Dat endpoints to use with graphs or elsewhere.</p>
+            </div>
+            <div class="col-md-4">
+              <img style="padding-top:40px" class="featurette-image img-responsive center-block" src="/img/dat-logo.png"  alt="Generic placeholder image">
+            </div>
+          </div>
+
+          <hr class="featurette-divider">
+
+          <div class="row featurette">
+            <div class="col-md-8 col-md-push-4">
+              <h2 class="featurette-heading">Data Dashboards.<div class="text-muted">Coming soon.</div></h2>
+              <p class="lead">Create rich data dashboards with a point and click interface. Add multiple charts from a single data source and embed outside maps and content.
+              </p>
+            </div>
+            <div class="col-md-4 col-md-pull-8">
+              <img style="width:200px;" class="featurette-image img-responsive center-block" src="/img/dashboard-logo.png" alt="Generic placeholder image">
+            </div>
+          </div>
+        </div>
+        <hr class="featurette-divider">
+
+        {{> chartsList}}
+<br/>
+        <div class="container marketing">
+          <hr class="featurette-divider">
+        </div>
+
+        <footer>
+          © <a href="http://nucivic.com">NuCivic</a>.
+        </footer>
       </div>
     </div>
   </div>

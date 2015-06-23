@@ -1,6 +1,5 @@
 body {
-  min-height: 2000px;
-  padding-top: 70px;
+  padding-top: 50px;
 }
 #login-dropdown-list {
   position: absolute;
@@ -19,4 +18,117 @@ body {
 }
 #login-buttons a {
   text-decoration: none;
+}
+.masthead {
+  position: relative;
+  padding: 30px 0;
+  color: #D4EEFE;
+  text-align: center;
+  text-shadow: 0 1px 0 rgba(0,0,0,.1);
+  background-color: #0A77BD;
+  background-image: -webkit-gradient(linear,left top,left bottom,from(#563d7c),to(#6f5499));
+  background-image: -webkit-linear-gradient(top,#563d7c 0,#6f5499 100%);
+  background-image: -o-linear-gradient(top,#563d7c 0,#6f5499 100%);
+ background-image: linear-gradient(to bottom,#0A77BD 0,#1C7DBC 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#563d7c', endColorstr='#6F5499', GradientType=0);
+  background-repeat: repeat-x;
+  padding: 60px 0;
+  margin: 0 0 40px 0;
+}
+.masthead .lead {
+  padding-top: 10px;
+}
+.masthead .btn {
+  margin: 0 5px;
+}
+#chart-list {
+  width: 100%;
+  padding: 0px;
+}
+#chart-list li {
+  height: 180px;
+  width: 260px;
+  background-size: 260px 180px;
+  float: left;
+  list-style: none;
+  margin-right: 15px;
+  margin-top: 20px;
+  margin-bottom: 25px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  position: relative;
+}
+#chart-list a {
+  position: absolute;
+  bottom: -30px;
+  font-size: 1.2em;
+}
+#chart-list .discreteBarChart {
+  background-image: url('img/discretebar.png');
+}
+
+#chart-list .multiBarChart {
+  background-image: url('img/stackedbar.png');
+}
+
+#chart-list .stackedAreaChart {
+  background-image: url('img/stackedarea.png');
+}
+
+#chart-list .pieChart {
+  background-image: url('img/pie.png');
+}
+
+#chart-list .lineChart {
+  background-image: url('img/line.png');
+}
+
+#chart-list .lineWithFocusChart {
+  background-image: url('img/linewithfocus.png');
+}
+
+#chart-list .scatterChart {
+  background-image: url('img/scatter.png');
+}
+
+#chart-list .cumulativeLineChart {
+  background-image: url('img/cumulativeline.png');
+}
+.btn-outline {
+  background-color: transparent;
+  border-color: #F6F6F6;
+  color: #D4EEFE;
+}
+.octocat {
+  display: inline-block;
+  position: relative;
+  top: 1px;
+  width: 16px;
+  height: 16px;
+  background-image: url('/img/octocat.png');
+  margin-right: 10px;
+}
+.container.marketing h2 {
+  font-size: 25px;
+}
+.container.marketing p.lead {
+  font-size: 17px;
+}
+footer {
+  clear: both;
+  padding: 40px 0;
+}
+.page {
+  padding-top: 20px;
+}
+.description {
+  font-size: 20px;
+  color: #888;
+  padding: 5px 0;
+}
+.page h1{
+  margin-top: 0;
+}
+.edit {
+  padding-bottom: 20px;
 }

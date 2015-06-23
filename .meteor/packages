@@ -6,7 +6,6 @@
 
 meteor-platform
 autopublish
-insecure
 recline-nvd3-app
 nemo64:bootstrap
 less

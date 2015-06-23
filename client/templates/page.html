@@ -1,11 +1,105 @@
-<template name="nuChartsPage">
-  {{> nuChartsNav}}
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        {{> reclineNvd3App}}
+<template name="nuChartsEdit">
+  <div class="page">
+    {{> nuChartsNav}}
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          {{#if currentUser}}
+            <div class="edit">
+              <button type="button" id="view" class="btn btn-default">View</button>
+              <button type="button" id="edit" class="btn btn-default disabled">Edit</button>
+              <button type="button" id="delete" class="btn btn-danger">Delete</button>
+            </div>
+            <h3>Chart Info</h3>
+            <div class="form-group">
+              <label for="control-chart-source">Title</label>
+              <input value="{{title}}" type="text" id="chart-title" class="form-control" placeholder="My Chart Title">
+            </div>
+            <div class="form-group">
+              <label for="control-chart-source">Description</label>
+              <input value="{{description}}" type="text" id="chart-description" class="form-control" placeholder="About my chart">
+            </div>
+            {{> reclineNvd3App}}
+            <p>
+            <br>
+            <hr>
+            </p>
+            <div class="panel panel-default">
+              <div class="panel-body">
+                <h4>example data</h4>
+              </div>
+              <div class="panel-footer">
+                <strong>CSV</strong>
+                <ul>
+                  <li>http://demo.getdkan.com/sites/default/files/us_foreclosures_jan_2012_by_state_0.csv</li>
+                </ul>
+                <strong>Google Doc</strong>
+                <ul>
+                  <li>http://demo.getdkan.com/sites/default/files/us_foreclosures_jan_2012_by_state_0.csv</li>
+                </ul>
+              </div>
+            </div>
+
+        {{else}}
+          You must login to create graphs.
+        {{/if}}
+        </div>
       </div>
     </div>
   </div>
-  <div id="controls"><div id="text" class="btn btn-primary pull-right">Next</div></div>
+</template>
+
+<template name="nuChartsView">
+  {{> nuChartsNav}}
+  <div class="page">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          {{#if currentUser}}
+            <div class="edit">
+              <button type="button" id="view" class="btn btn-default disabled">View</button>
+              <button type="button" id="edit" class="btn btn-default">Edit</button>
+              <button type="button" id="delete" class="btn btn-danger">Delete</button>
+            </div>
+          {{/if}}
+          <h1>{{title}}</h1>
+          {{#if description}}
+            <div class="description">
+              {{description}}
+            </div>
+
+          {{/if}}
+          {{> reclineNvd3AppView}}
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<template name="nuChartsDelete">
+  {{> nuChartsNav}}
+  <div class="page">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          {{#if currentUser}}
+            <div class="edit">
+              <button type="button" id="view" class="btn btn-default">View</button>
+              <button type="button" id="edit" class="btn btn-default">Edit</button>
+              <button type="button" id="delete" class="btn btn-danger disabled">Delete</button>
+            </div>
+          {{/if}}
+          <h1>{{title}}</h1>
+          {{#if description}}
+            <div class="description">
+              {{description}}
+            </div>
+
+          {{/if}}
+          <p>Are you sure you want to delete?</p>
+          <button type="button" id="final-delete" class="btn btn-danger">Delete</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
 </template>

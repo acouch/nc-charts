@@ -1,49 +1,87 @@
 if (Meteor.isClient) {
+
   Router.route('/', function () {
     this.render('nuChartsHome');
   });
   Router.route('/about', function () {
     this.render('nuChartsAbout');
   });
+  Router.route('/viz/:_id/edit', {
+    data: function() {
+      return Models.Viz.findOne(this.params._id);
+    },
+    template: "nuChartsEdit",
+  });
+  Router.route('/viz/:_id/delete', {
+    data: function() {
+      return Models.Viz.findOne(this.params._id);
+    },
+    template: "nuChartsDelete",
+  });
   Router.route('/viz/:_id', {
     data: function() {
       return Models.Viz.findOne(this.params._id);
     },
-    template: "nuChartsPage",
+    template: "nuChartsView",
   });
 
   Template.reclineNvd3AppStart.events({
-    'click button': function (event, instance) {
-    var id = Models.Viz.insert({
-       step: 0
-     });
-     Router.go('/viz/' + id)
+    'click button.recline-nvd3-app-begin': function (event, instance) {
+      Meteor.call('insertViz', function(err, id) {
+        Router.go('/viz/' + id + '/edit')
+      });
     }
   });
 
-  Template.nuChartsPage.events({
+  Template.nuChartsView.events({
+    'click button#edit': function (event, instance) {
+      Router.go('/viz/' + instance.data._id + '/edit')
+    },
+    'click button#delete': function (event, instance) {
+      Router.go('/viz/' + instance.data._id + '/delete')
+    }
+  });
+  Template.nuChartsEdit.events({
+    'click button#view': function (event, instance) {
+      Router.go('/viz/' + instance.data._id)
+    },
+    'click button#delete': function (event, instance) {
+      Router.go('/viz/' + instance.data._id + '/delete')
+    }
+  });
+  Template.nuChartsDelete.events({
+    'click button#view': function (event, instance) {
+      Router.go('/viz/' + instance.data._id)
+    },
+    'click button#edit': function (event, instance) {
+      Router.go('/viz/' + instance.data._id + '/edit')
+    },
+    'click button#final-delete': function (event, instance) {
+      Meteor.call('deleteViz', instance.data._id);
+      Router.go('/');
+    }
   });
 
   var recline = this.recline;
 
+
   Template.reclineNvd3App.onRendered(function() {
+
     var sharedObject;
     var id = window.location.pathname.split("/viz/").pop();
+    id = id.split("/edit")
+    id = id[0]
     var collection = Models.Viz.findOne(id);
 
     var currentState = collection.state || null;
-    console.log(currentState);
     var state;
     var model;
 
     // There is not saved state. Neither database or memory.
     if(currentState && !sharedObject){
       state = new recline.Model.ObjectState(currentState);
-      console.log('wtf');
 
       model = state.get('model');
-      console.log('tf');
-      console.log(model);
 
       if(model && !model.records){
         // Ensure url is protocol agnostic
@@ -85,13 +123,9 @@ if (Meteor.isClient) {
     function save(){
       var currentState = $('#steps input[type="hidden"]').val();
       currentState = $.parseJSON(currentState);
-      console.log(currentState);
-      console.log(id);
-      Models.Viz.update(id, {
-        $set: {
-          state: currentState 
-        }
-      });
+      var title = $("input#chart-title").val() || "Untitled";
+      var description = $("input#chart-description").val() || "";
+      Meteor.call('updateViz', title, description, id, currentState);
     }
 
     function init(){
@@ -104,19 +138,71 @@ if (Meteor.isClient) {
       msv.addStep(new DataOptionsView(sharedObject));
       msv.addStep(new ChooseChartView(sharedObject));
       msv.addStep(new ChartOptionsView(sharedObject));
+      msv.addStep(new PublishView(sharedObject));
 
       msv.on('multistep:change', function(e){
         save();
-        console.log('multistep change');
       });
       msv.render();
 
-      sharedObject.state.on('change', function(){
-        console.log('state change');
+      sharedObject.state.on('change', function(e){
+        console.log(e.changed.step);
+        if(e.changed.step == 4) {
+          Router.go('/viz/' + id)
+        }
+        else if (e.changed.step > 0) {
+          $(".panel").remove();
+        }
       });
 
     }
 
+  });
+
+  Template.reclineNvd3AppView.onRendered(function() {
+    var id = this.data._id;
+    var collection = Models.Viz.findOne(id);
+    console.log(collection);
+    if (!collection.state || collection.state.step < 3) {
+      $("#chart").html("<p>Chart not yet finished. Login and edit to continue.</p>")
+      return '';
+    }
+
+    var currentState = collection.state || null;
+
+    var state = new recline.Model.ObjectState(currentState);
+    state.set('width', window.innerWidth);
+    state.set('height', window.innerHeight - 20);
+
+    var model = new recline.Model.Dataset(state.get('model'));
+    var title = collection.title;
+    model.queryState.attributes.size = 10000000;
+    model.fetch().done(function(){
+      window.chart = new recline.View.nvd3[state.get('graphType')]({
+          model: model,
+          state: state,
+          el: $('#chart'),
+      });
+      chart.render();
+    });
+
+  });
+  Template.nuChartsEdit.helpers({
+    step: function() {
+     console.log(this);
+    }
+  });
+  Template.chartsList.helpers({
+    list: function() {
+      var vizs = Models.Viz.find().fetch();
+      var charts = [];
+      $.each(vizs, function(key, val) {
+        if (val.title && val.state.step > 2) {
+          charts.push({title: val.title, id: val._id, type: val.state.graphType});
+        }
+      });
+      return charts;
+    }
   });
 
   Template.nuChartsNav.helpers({
@@ -136,4 +222,45 @@ if (Meteor.isServer) {
   Meteor.startup(function () {
     // code to run on server at startup
   });
+  Meteor.methods({
+    'insertViz': function() {
+      var uid = Meteor.userId();
+      check(uid, String);
+      var id = Models.Viz.insert({
+        uid: uid,
+        timestamp: Date.now(),
+        step: 0
+      });
+      return id;
+    },
+    'deleteViz': function(id) {
+      Models.Viz.remove({
+        "_id": id
+      });
+      console.log(id);
+      return id;
+    },
+    'updateViz': function(title, description, id, state) {
+      var uid = Meteor.userId();
+      check(uid, String);
+      check(id, String);
+      // TODO: Sanitize state.
+      //check(state, {
+      //  step: Integer,
+      //  model: {
+      //    backend: String,
+      //    url: String
+      //  }
+      //});
+      Models.Viz.update(id, {
+        $set: {
+          title: title,
+          state: state,
+          description: description,
+          updated: Date.now(),
+          uid: uid
+        }
+      });
+    }
+  })
 }
