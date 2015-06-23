@@ -6,7 +6,7 @@
 
 meteor-platform
 autopublish
-recline-nvd3-app
+acouch:recline-nvd3-app
 nemo64:bootstrap
 less
 iron:router

@@ -2,6 +2,7 @@ accounts-base@1.2.0
 accounts-password@1.1.1
 accounts-ui@1.1.5
 accounts-ui-unstyled@1.1.7
+acouch:recline-nvd3-app@0.0.1
 aldeed:template-extension@3.4.3
 autopublish@1.0.3
 autoupdate@1.2.1
@@ -51,7 +52,6 @@ ordered-dict@1.0.3
 random@1.0.3
 reactive-dict@1.1.0
 reactive-var@1.0.5
-recline-nvd3-app@0.0.1
 reload@1.1.3
 retry@1.0.3
 routepolicy@1.0.5
