@@ -6,6 +6,9 @@ if (Meteor.isClient) {
   Router.route('/about', function () {
     this.render('nuChartsAbout');
   });
+  Router.route('/gallery', function () {
+    this.render('Gallery');
+  });
   Router.route('/viz/:_id/edit', {
     data: function() {
       return Models.Viz.findOne(this.params._id);
