@@ -50,6 +50,9 @@ if (Meteor.isClient) {
     },
     'click button#delete': function (event, instance) {
       Router.go('/viz/' + instance.data._id + '/delete')
+    },
+    'click div#save': function (event, instance) {
+      Router.go('/viz/' + instance.data._id)
     }
   });
   Template.nuChartsDelete.events({
@@ -140,7 +143,7 @@ if (Meteor.isClient) {
       msv.addStep(new LoadDataView(sharedObject));
       msv.addStep(new DataOptionsView(sharedObject));
       msv.addStep(new ChooseChartView(sharedObject));
-      msv.addStep(new ChartOptionsView(sharedObject));
+      msv.addStep(new ChartOptionsViewSave(sharedObject));
       msv.addStep(new PublishView(sharedObject));
 
       msv.on('multistep:change', function(e){
